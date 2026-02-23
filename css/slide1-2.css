@@ -1,0 +1,231 @@
+/* ═══════════════════════════════════════════════════
+   slide1-2.css — Slide 1 (Kad Jemputan / Envelope) + Slide 2 (Jemputan scene)
+   ═══════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════
+   SECTION 2: JEMPUTAN
+   ═══════════════════════════════════ */
+#slide-2 {
+  gap: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 1rem 1rem;
+}
+
+/* The big invitation card + envelope combo */
+.jemputan-scene {
+  position: relative;
+  width: min(620px, 95vw);
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Lace doily behind */
+.lace-doily {
+  position: absolute;
+  width: 70%;
+  height: 90%;
+  left: 0;
+  top: 5%;
+  background: rgba(245,239,230,0.7);
+  border: 2px solid rgba(220,200,185,0.8);
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(107,26,42,0.1);
+  /* lace pattern via repeating gradient */
+  background-image:
+    radial-gradient(circle 3px at 8px 8px, rgba(200,170,150,0.4) 0%, transparent 100%),
+    radial-gradient(circle 3px at 24px 8px, rgba(200,170,150,0.4) 0%, transparent 100%);
+  background-size: 16px 16px;
+  background-color: rgba(245,239,230,0.75);
+}
+
+/* The "RSVP" and "Aturcara" overlay cards (left side in scene) */
+.scene-overlay-cards {
+  position: absolute;
+  left: 2%;
+  bottom: 8%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  z-index: 10;
+}
+
+/* Main envelope in scene */
+.scene-envelope {
+  position: absolute;
+  right: -5%;
+  top: 5%;
+  width: 52%;
+  background: linear-gradient(145deg, #7B1E30 0%, #5C1220 60%, #4A0F1C 100%);
+  border-radius: 3px;
+  padding-bottom: 68%;
+  box-shadow: 0 15px 40px rgba(74,15,28,0.4);
+  z-index: 8;
+}
+
+.scene-env-flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(150deg, #8B2540 0%, #6B1A2A 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 95%);
+}
+
+.scene-env-seal {
+  position: absolute;
+  right: 0; top: 0;
+  width: 52px; height: 52px;
+  z-index: 12;
+  transform: translate(25%, -25%);
+}
+
+/* The main invitation card sticking out of envelope */
+.invite-card {
+  position: absolute;
+  left: 5%;
+  top: 2%;
+  width: 55%;
+  background: var(--cream-paper);
+  border-radius: 2px;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  z-index: 9;
+  box-shadow: -5px 5px 25px rgba(74,15,28,0.2);
+  transform: rotate(-3deg);
+}
+
+.invite-card .bismillah-text {
+  font-size: 1.2rem;
+  color: var(--burgundy);
+  margin-bottom: 0.6rem;
+  font-family: 'EB Garamond', serif;
+}
+
+.invite-card .greeting {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}
+
+.invite-card .parent-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  color: var(--burgundy);
+  line-height: 1.5;
+}
+
+.invite-card .small-text {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin: 0.4rem 0;
+}
+
+.invite-card .couple-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  color: var(--burgundy);
+  line-height: 1.4;
+}
+
+/* Lily flowers decorative */
+.lily {
+  position: absolute;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.lily svg { width: 100%; height: 100%; }
+
+/* Action card (RSVP / Aturcara buttons) */
+.scene-action-card {
+  background: var(--burgundy);
+  color: var(--cream);
+  border-radius: 3px;
+  padding: 0.9rem 1.2rem;
+  cursor: pointer;
+  text-align: center;
+  width: 140px;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: block;
+}
+
+.scene-action-card:hover {
+  background: var(--burgundy-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74,15,28,0.35);
+}
+
+.scene-action-card .card-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--blush-light);
+}
+
+.scene-action-card .card-script {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  display: block;
+  margin-top: 0.1rem;
+}
+
+/* Maklumat tab at bottom right */
+.maklumat-tab {
+  position: absolute;
+  bottom: 5%;
+  right: 8%;
+  background: var(--blush);
+  border-radius: 4px;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.3s;
+  box-shadow: 0 6px 20px rgba(107,26,42,0.2);
+}
+
+.maklumat-tab:hover { background: var(--blush-light); transform: translateY(-3px); }
+
+.maklumat-tab .tab-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--burgundy);
+}
+
+.maklumat-tab .tab-script {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--burgundy);
+  display: block;
+}
+
+/* Key icon */
+.key-icon {
+  position: absolute;
+  bottom: 42%;
+  right: 28%;
+  font-size: 2.2rem;
+  transform: rotate(30deg);
+  opacity: 0.75;
+  z-index: 6;
+  filter: sepia(1) saturate(0.5);
+}
+

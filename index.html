@@ -1,1353 +1,20 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kad Jemputan | Najwa & Azrai | 31 Mei 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Playfair+Display:ital,wght@0,400;1,400;1,700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --burgundy: #6B1A2A;
-  --burgundy-dark: #4A0F1C;
-  --burgundy-mid: #7A1E2E;
-  --cream: #F5EFE6;
-  --cream-paper: #EDE3D2;
-  --cream-warm: #F0E6D3;
-  --gold: #C9A96E;
-  --gold-light: #E2C48A;
-  --blush: #D4A0A8;
-  --blush-light: #E8C8CC;
-  --text-dark: #3A1018;
-  --text-mid: #6B3040;
-  --lace: rgba(245,239,230,0.85);
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; height: 100%; overflow: hidden; }
-
-/* ═══════════════════════════════════
-   MONET WATER LILY BACKGROUND (CSS)
-   ═══════════════════════════════════ */
-.monet-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-image: url('bg.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
-/* Willow tendrils - left */
-.monet-canvas::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    /* Left willow strokes */
-    repeating-linear-gradient(175deg,
-      transparent 0px, transparent 18px,
-      rgba(50,100,70,0.12) 18px, rgba(50,100,70,0.12) 20px,
-      transparent 20px, transparent 38px,
-      rgba(60,110,75,0.1) 38px, rgba(60,110,75,0.1) 40px
-    ),
-    /* Lily pads bottom section */
-    radial-gradient(ellipse 80px 35px at 15% 82%, rgba(70,120,70,0.35) 0%, transparent 100%),
-    radial-gradient(ellipse 100px 45px at 40% 88%, rgba(60,110,65,0.3) 0%, transparent 100%),
-    radial-gradient(ellipse 70px 30px at 70% 85%, rgba(75,125,70,0.3) 0%, transparent 100%),
-    radial-gradient(ellipse 90px 40px at 85% 80%, rgba(65,115,68,0.28) 0%, transparent 100%),
-    radial-gradient(ellipse 55px 25px at 55% 76%, rgba(70,120,65,0.25) 0%, transparent 100%),
-    radial-gradient(ellipse 65px 28px at 25% 90%, rgba(68,118,65,0.3) 0%, transparent 100%),
-    radial-gradient(ellipse 45px 20px at 90% 92%, rgba(72,122,70,0.28) 0%, transparent 100%),
-    /* Water lilies (pink dots) */
-    radial-gradient(circle 8px at 18% 78%, rgba(220,140,150,0.7) 0%, transparent 100%),
-    radial-gradient(circle 6px at 32% 86%, rgba(215,135,145,0.65) 0%, transparent 100%),
-    radial-gradient(circle 7px at 72% 82%, rgba(218,138,148,0.6) 0%, transparent 100%),
-    radial-gradient(circle 9px at 85% 77%, rgba(222,140,150,0.65) 0%, transparent 100%),
-    radial-gradient(circle 6px at 50% 92%, rgba(210,130,140,0.55) 0%, transparent 100%);
-}
-
-/* Water texture ripples */
-.monet-canvas::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    repeating-linear-gradient(168deg, transparent 0, transparent 35px, rgba(255,255,255,0.04) 35px, rgba(255,255,255,0.04) 37px),
-    repeating-linear-gradient(12deg, transparent 0, transparent 55px, rgba(160,200,190,0.05) 55px, rgba(160,200,190,0.05) 57px),
-    repeating-linear-gradient(180deg, transparent 0, transparent 8px, rgba(180,215,210,0.03) 8px, rgba(180,215,210,0.03) 9px);
-}
-
-/* ═══════════════════════════════════
-   SECTIONS CONTAINER
-   ═══════════════════════════════════ */
-.slider {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.slide {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  transform: translateX(60px);
-}
-
-.slide.active {
-  opacity: 1;
-  pointer-events: all;
-  transform: translateX(0);
-}
-
-.slide.prev {
-  opacity: 0;
-  transform: translateX(-60px);
-}
-
-/* ═══════════════════════════════════
-   NAVIGATION BAR (top right like Canva)
-   ═══════════════════════════════════ */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 2.5rem;
-  height: 52px;
-  background: rgba(255,255,255,0.72);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.4);
-}
-
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 2.5rem;
-}
-
-.nav-links li a {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.9rem;
-  letter-spacing: 0.05em;
-  color: var(--text-dark);
-  text-decoration: none;
-  transition: color 0.3s;
-  cursor: pointer;
-}
-
-.nav-links li a.active {
-  font-weight: 600;
-  color: var(--burgundy);
-}
-
-.nav-links li a:hover { color: var(--burgundy); }
-
-/* Mobile nav */
-.nav-hamburger {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-}
-.nav-hamburger span {
-  display: block; width: 22px; height: 2px;
-  background: var(--burgundy); margin: 4px 0; transition: all 0.3s;
-}
-
-/* ═══════════════════════════════════
-   ARROW NAVIGATION
-   ═══════════════════════════════════ */
-.nav-arrow {
-  position: fixed;
-  z-index: 100;
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(107,26,42,0.2);
-  backdrop-filter: blur(8px);
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s;
-  color: var(--burgundy);
-  font-size: 1.1rem;
-}
-
-.nav-arrow:hover {
-  background: rgba(255,255,255,0.85);
-  box-shadow: 0 4px 15px rgba(107,26,42,0.2);
-}
-
-.nav-arrow.left { left: 1.2rem; top: 50%; transform: translateY(-50%); }
-.nav-arrow.right { right: 1.2rem; top: 50%; transform: translateY(-50%); }
-.nav-arrow:disabled { opacity: 0.25; pointer-events: none; }
-
-/* Slide dots */
-.nav-dots {
-  position: fixed;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.nav-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: rgba(107,26,42,0.3);
-  cursor: pointer;
-  transition: all 0.3s;
-  border: none;
-  padding: 0;
-}
-
-.nav-dot.active {
-  background: var(--burgundy);
-  width: 22px;
-  border-radius: 4px;
-}
-
-/* ═══════════════════════════════════
-   SECTION 1: KAD JEMPUTAN (envelope)
-   ═══════════════════════════════════ */
-#slide-1 {
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.s1-tagline {
-  font-family: 'EB Garamond', serif;
-  font-size: clamp(1rem, 2.5vw, 1.4rem);
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  color: var(--burgundy);
-  font-weight: 400;
-}
-
-/* Big envelope centred */
-.envelope-stage {
-  position: relative;
-  width: min(380px, 80vw);
-  cursor: pointer;
-  filter: drop-shadow(0 25px 50px rgba(107,26,42,0.4));
-}
-
-.env {
-  position: relative;
-  width: 100%;
-  padding-bottom: 72%;
-}
-
-/* Envelope body */
-.env-body {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(160deg, #7B1E30 0%, #5C1220 55%, #4A0F1C 100%);
-  border-radius: 3px 3px 6px 6px;
-  overflow: hidden;
-}
-
-/* Bottom side triangles (darker) */
-.env-tri-left {
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 51%; height: 50%;
-  background: linear-gradient(145deg, #3E0C18 0%, transparent 65%);
-  clip-path: polygon(0 100%, 100% 100%, 0 0);
-}
-
-.env-tri-right {
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 51%; height: 50%;
-  background: linear-gradient(215deg, #3E0C18 0%, transparent 65%);
-  clip-path: polygon(100% 100%, 0 100%, 100% 0);
-}
-
-/* Flap */
-.env-flap {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 55%;
-  background: linear-gradient(150deg, #8B2540 0%, #6B1A2A 100%);
-  clip-path: polygon(0 0, 100% 0, 50% 95%);
-  transform-origin: top;
-  transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
-  z-index: 3;
-}
-
-.env-flap::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 60%);
-  clip-path: polygon(0 0, 100% 0, 50% 95%);
-}
-
-/* Heart wax seal on envelope */
-.env-seal {
-  position: absolute;
-  bottom: 22%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 4;
-  width: 58px;
-  height: 58px;
-}
-
-.env-seal svg { width: 100%; height: 100%; }
-
-/* Sila Buka text */
-.env-sila-buka {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(1.3rem, 3vw, 1.8rem);
-  color: var(--gold-light);
-  white-space: nowrap;
-  z-index: 5;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-  transition: opacity 0.4s;
-  pointer-events: none;
-  letter-spacing: 0.05em;
-}
-
-/* Card pulling out */
-.env-inner-card {
-  position: absolute;
-  bottom: 8%;
-  left: 12%;
-  right: 12%;
-  background: var(--cream-paper);
-  border-radius: 2px;
-  z-index: 2;
-  transition: transform 1s 0.3s cubic-bezier(0.4,0,0.2,1);
-  padding: 1rem;
-  text-align: center;
-  box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
-}
-
-.env-inner-card .monogram {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 2.2rem;
-  color: var(--burgundy);
-  line-height: 1;
-}
-
-.env-inner-card .names {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--text-mid);
-  margin-top: 0.2rem;
-}
-
-/* Open state */
-.envelope-stage.open .env-flap {
-  transform: rotateX(180deg);
-}
-
-.envelope-stage.open .env-inner-card {
-  transform: translateY(-90%);
-}
-
-.envelope-stage.open .env-sila-buka {
-  opacity: 0;
-}
-
-/* Date below */
-.s1-date {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(2rem, 5vw, 3rem);
-  color: var(--burgundy);
-  letter-spacing: 0.2em;
-}
-
-/* ═══════════════════════════════════
-   SECTION 2: JEMPUTAN
-   ═══════════════════════════════════ */
-#slide-2 {
-  gap: 0;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 1rem 1rem;
-}
-
-/* The big invitation card + envelope combo */
-.jemputan-scene {
-  position: relative;
-  width: min(620px, 95vw);
-  height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Lace doily behind */
-.lace-doily {
-  position: absolute;
-  width: 70%;
-  height: 90%;
-  left: 0;
-  top: 5%;
-  background: rgba(245,239,230,0.7);
-  border: 2px solid rgba(220,200,185,0.8);
-  border-radius: 4px;
-  box-shadow: 0 8px 30px rgba(107,26,42,0.1);
-  /* lace pattern via repeating gradient */
-  background-image:
-    radial-gradient(circle 3px at 8px 8px, rgba(200,170,150,0.4) 0%, transparent 100%),
-    radial-gradient(circle 3px at 24px 8px, rgba(200,170,150,0.4) 0%, transparent 100%);
-  background-size: 16px 16px;
-  background-color: rgba(245,239,230,0.75);
-}
-
-/* The "RSVP" and "Aturcara" overlay cards (left side in scene) */
-.scene-overlay-cards {
-  position: absolute;
-  left: 2%;
-  bottom: 8%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  z-index: 10;
-}
-
-/* Main envelope in scene */
-.scene-envelope {
-  position: absolute;
-  right: -5%;
-  top: 5%;
-  width: 52%;
-  background: linear-gradient(145deg, #7B1E30 0%, #5C1220 60%, #4A0F1C 100%);
-  border-radius: 3px;
-  padding-bottom: 68%;
-  box-shadow: 0 15px 40px rgba(74,15,28,0.4);
-  z-index: 8;
-}
-
-.scene-env-flap {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 50%;
-  background: linear-gradient(150deg, #8B2540 0%, #6B1A2A 100%);
-  clip-path: polygon(0 0, 100% 0, 50% 95%);
-}
-
-.scene-env-seal {
-  position: absolute;
-  right: 0; top: 0;
-  width: 52px; height: 52px;
-  z-index: 12;
-  transform: translate(25%, -25%);
-}
-
-/* The main invitation card sticking out of envelope */
-.invite-card {
-  position: absolute;
-  left: 5%;
-  top: 2%;
-  width: 55%;
-  background: var(--cream-paper);
-  border-radius: 2px;
-  padding: 1.2rem 1rem;
-  text-align: center;
-  z-index: 9;
-  box-shadow: -5px 5px 25px rgba(74,15,28,0.2);
-  transform: rotate(-3deg);
-}
-
-.invite-card .bismillah-text {
-  font-size: 1.2rem;
-  color: var(--burgundy);
-  margin-bottom: 0.6rem;
-  font-family: 'EB Garamond', serif;
-}
-
-.invite-card .greeting {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-mid);
-  line-height: 1.7;
-  margin-bottom: 0.5rem;
-}
-
-.invite-card .parent-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
-  color: var(--burgundy);
-  line-height: 1.5;
-}
-
-.invite-card .small-text {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-mid);
-  line-height: 1.8;
-  margin: 0.4rem 0;
-}
-
-.invite-card .couple-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
-  color: var(--burgundy);
-  line-height: 1.4;
-}
-
-/* Lily flowers decorative */
-.lily {
-  position: absolute;
-  pointer-events: none;
-  z-index: 15;
-}
-
-.lily svg { width: 100%; height: 100%; }
-
-/* Action card (RSVP / Aturcara buttons) */
-.scene-action-card {
-  background: var(--burgundy);
-  color: var(--cream);
-  border-radius: 3px;
-  padding: 0.9rem 1.2rem;
-  cursor: pointer;
-  text-align: center;
-  width: 140px;
-  transition: all 0.3s;
-  text-decoration: none;
-  display: block;
-}
-
-.scene-action-card:hover {
-  background: var(--burgundy-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(74,15,28,0.35);
-}
-
-.scene-action-card .card-label {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--blush-light);
-}
-
-.scene-action-card .card-script {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.4rem;
-  display: block;
-  margin-top: 0.1rem;
-}
-
-/* Maklumat tab at bottom right */
-.maklumat-tab {
-  position: absolute;
-  bottom: 5%;
-  right: 8%;
-  background: var(--blush);
-  border-radius: 4px;
-  padding: 0.8rem 1.5rem;
-  text-align: center;
-  cursor: pointer;
-  z-index: 20;
-  transition: all 0.3s;
-  box-shadow: 0 6px 20px rgba(107,26,42,0.2);
-}
-
-.maklumat-tab:hover { background: var(--blush-light); transform: translateY(-3px); }
-
-.maklumat-tab .tab-label {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--burgundy);
-}
-
-.maklumat-tab .tab-script {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.3rem;
-  color: var(--burgundy);
-  display: block;
-}
-
-/* Key icon */
-.key-icon {
-  position: absolute;
-  bottom: 42%;
-  right: 28%;
-  font-size: 2.2rem;
-  transform: rotate(30deg);
-  opacity: 0.75;
-  z-index: 6;
-  filter: sepia(1) saturate(0.5);
-}
-
-/* ═══════════════════════════════════
-   SECTION 3: MAKLUMAT JEMPUTAN
-   Full-screen invitation card emerging from envelope
-   ═══════════════════════════════════ */
-#slide-3 {
-  padding: 60px 1rem 1rem;
-  justify-content: center;
-}
-
-.maklumat-scene {
-  position: relative;
-  width: min(520px, 95vw);
-  height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* The envelope body behind */
-.maklumat-env {
-  position: absolute;
-  bottom: 2%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 85%;
-  padding-bottom: 62%;
-  background: linear-gradient(145deg, #7B1E30 0%, #5C1220 55%, #4A0F1C 100%);
-  border-radius: 3px;
-  box-shadow: 0 20px 50px rgba(74,15,28,0.45);
-  z-index: 1;
-}
-
-.maklumat-env-flap {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 52%;
-  background: linear-gradient(150deg, #8B2540 0%, #6B1A2A 100%);
-  clip-path: polygon(0 0, 100% 0, 50% 95%);
-}
-
-.maklumat-env-tri-l {
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 51%; height: 52%;
-  background: linear-gradient(145deg, #3E0C18 0%, transparent 65%);
-  clip-path: polygon(0 100%, 100% 100%, 0 0);
-}
-
-.maklumat-env-tri-r {
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 51%; height: 52%;
-  background: linear-gradient(215deg, #3E0C18 0%, transparent 65%);
-  clip-path: polygon(100% 100%, 0 100%, 100% 0);
-}
-
-.maklumat-env-seal {
-  position: absolute;
-  bottom: 38%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  width: 56px; height: 56px;
-}
-
-/* The big card emerging from top */
-.maklumat-card {
-  position: absolute;
-  top: 2%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 72%;
-  background: var(--cream-paper);
-  border-radius: 2px;
-  padding: 1.5rem 1.2rem 4rem;
-  text-align: center;
-  z-index: 5;
-  box-shadow: 0 -10px 40px rgba(74,15,28,0.15), 5px 5px 30px rgba(74,15,28,0.2);
-}
-
-/* Text in the card */
-.mc-bismillah {
-  font-size: 1.4rem;
-  color: var(--burgundy);
-  font-family: 'EB Garamond', serif;
-  margin-bottom: 0.8rem;
-}
-
-.mc-greeting {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-mid);
-  line-height: 1.9;
-  margin-bottom: 0.7rem;
-}
-
-.mc-parent {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(1rem, 2.5vw, 1.35rem);
-  color: var(--burgundy);
-  line-height: 1.4;
-}
-
-.mc-invite {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-mid);
-  line-height: 2;
-  margin: 0.7rem 0;
-}
-
-.mc-couple {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(0.9rem, 2.2vw, 1.2rem);
-  color: var(--burgundy);
-  line-height: 1.4;
-}
-
-.mc-divider {
-  width: 120px;
-  height: 12px;
-  margin: 0.5rem auto;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cline x1='0' y1='6' x2='48' y2='6' stroke='%23C9A96E' stroke-width='0.7'/%3E%3Ccircle cx='60' cy='6' r='3' fill='none' stroke='%23C9A96E' stroke-width='0.7'/%3E%3Ccircle cx='60' cy='6' r='1.5' fill='%23C9A96E'/%3E%3Cline x1='72' y1='6' x2='120' y2='6' stroke='%23C9A96E' stroke-width='0.7'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-/* Lilies flanking the envelope */
-.m3-lily-left {
-  position: absolute;
-  left: -8%;
-  bottom: 12%;
-  width: 120px;
-  z-index: 6;
-}
-
-.m3-lily-right {
-  position: absolute;
-  right: -5%;
-  top: 35%;
-  width: 100px;
-  z-index: 6;
-}
-
-/* & symbol to the left */
-.m3-ampersand {
-  position: absolute;
-  left: 2%;
-  top: 42%;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 2rem;
-  color: var(--burgundy);
-  opacity: 0.4;
-}
-
-/* ═══════════════════════════════════
-   SECTION 4: ATURCARA MAJLIS
-   ═══════════════════════════════════ */
-#slide-4 {
-  padding: 60px 1rem 1rem;
-  justify-content: center;
-}
-
-.aturcara-scene {
-  position: relative;
-  width: min(500px, 95vw);
-  height: calc(100vh - 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Lace backing behind dark card */
-.aturcara-lace {
-  position: absolute;
-  inset: 2% -4%;
-  background: rgba(245,239,230,0.6);
-  border: 1.5px solid rgba(200,175,155,0.7);
-  border-radius: 5px;
-  /* repeating dot lace pattern */
-  background-image: radial-gradient(circle 2px at 6px 6px, rgba(180,150,130,0.3) 0%, transparent 100%);
-  background-size: 12px 12px;
-  background-color: rgba(245,239,230,0.55);
-}
-
-/* Burgundy dark card */
-.aturcara-card {
-  position: relative;
-  width: 70%;
-  background: linear-gradient(160deg, #7A1E2E 0%, #5C1220 60%, #4A0F1C 100%);
-  border-radius: 4px;
-  padding: 2rem 1.8rem 2.2rem;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(74,15,28,0.5);
-  z-index: 5;
-}
-
-/* Heart seal top-left of card */
-.aturcara-heart-seal {
-  position: absolute;
-  top: -28px;
-  left: -18px;
-  width: 56px;
-  height: 56px;
-  z-index: 10;
-}
-
-.aturcara-card-title .serif-label {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--gold-light);
-}
-
-.aturcara-card-title .script {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 2.2rem;
-  color: var(--cream);
-  display: block;
-  margin-top: 0.1rem;
-}
-
-.aturcara-divider {
-  width: 80px;
-  height: 1px;
-  background: rgba(201,169,110,0.5);
-  margin: 1rem auto;
-}
-
-.aturcara-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-}
-
-.aturcara-item {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(201,169,110,0.12);
-}
-
-.aturcara-item:last-child { border-bottom: none; }
-
-.aturcara-icon {
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(201,169,110,0.35);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  background: rgba(201,169,110,0.1);
-}
-
-.aturcara-icon svg {
-  width: 22px;
-  height: 22px;
-  fill: none;
-  stroke: var(--gold-light);
-  stroke-width: 1.5;
-}
-
-.aturcara-info { text-align: left; }
-
-.aturcara-time {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem;
-  color: var(--gold-light);
-  font-weight: 600;
-}
-
-.aturcara-desc {
-  font-family: 'EB Garamond', serif;
-  font-size: 0.82rem;
-  color: var(--cream);
-  letter-spacing: 0.04em;
-}
-
-/* Lily bottom right */
-.a4-lily {
-  position: absolute;
-  right: -6%;
-  bottom: 8%;
-  width: 130px;
-  z-index: 6;
-}
-
-/* ═══════════════════════════════════
-   SECTION 5: MAKLUMAT (Date/Venue/Countdown)
-   ═══════════════════════════════════ */
-#slide-5 {
-  padding: 60px 1rem 2rem;
-  flex-direction: column;
-  gap: 1rem;
-  overflow-y: auto;
-}
-
-.slide5-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  width: 100%;
-  max-width: 520px;
-}
-
-/* Countdown */
-.countdown-box {
-  background: rgba(107,26,42,0.88);
-  border: 1px solid rgba(201,169,110,0.35);
-  border-radius: 4px;
-  padding: 1.5rem 2rem;
-  width: 100%;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 15px 40px rgba(107,26,42,0.35);
-}
-
-.countdown-label {
-  font-size: 0.7rem;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  margin-bottom: 1rem;
-}
-
-.countdown-nums {
-  display: flex;
-  justify-content: center;
-  gap: 0.8rem;
-  align-items: flex-start;
-}
-
-.c-unit { text-align: center; min-width: 60px; }
-
-.c-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.2rem, 5vw, 3rem);
-  color: var(--cream);
-  line-height: 1;
-  display: block;
-}
-
-.c-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--blush);
-  display: block;
-  margin-top: 0.2rem;
-}
-
-.c-colon {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem;
-  color: var(--gold);
-  line-height: 1.1;
-}
-
-/* Info grid */
-.info-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
-  width: 100%;
-}
-
-.info-tile {
-  background: rgba(245,239,230,0.88);
-  border: 1px solid rgba(201,169,110,0.35);
-  border-radius: 4px;
-  padding: 1.2rem;
-  text-align: center;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 6px 20px rgba(107,26,42,0.12);
-}
-
-.info-tile-icon { font-size: 1.5rem; display: block; margin-bottom: 0.4rem; }
-.info-tile-lbl { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.25rem; }
-.info-tile-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 1.05rem;
-  color: var(--burgundy);
-  line-height: 1.3;
-}
-
-.info-tile.full { grid-column: 1/-1; }
-
-/* Map */
-.map-box {
-  width: 100%;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 12px 35px rgba(107,26,42,0.2);
-  border: 1px solid rgba(201,169,110,0.3);
-}
-
-.map-bar {
-  background: var(--burgundy);
-  padding: 0.7rem 1.2rem;
-  display: flex;
-  gap: 0.7rem;
-  align-items: center;
-}
-
-.map-bar-text { color: var(--cream); }
-.map-venue-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.95rem; }
-.map-venue-addr { font-size: 0.68rem; color: var(--blush-light); letter-spacing: 0.04em; }
-
-.map-frame { width: 100%; height: 200px; border: none; display: block; }
-
-.map-dir-btn {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  background: rgba(245,239,230,0.95);
-  text-align: center;
-  font-family: 'EB Garamond', serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--burgundy);
-  text-decoration: none;
-  transition: background 0.3s;
-  border-top: 1px solid rgba(201,169,110,0.3);
-}
-
-.map-dir-btn:hover { background: var(--cream-warm); }
-
-/* ═══════════════════════════════════
-   SECTION 6: RSVP
-   ═══════════════════════════════════ */
-#slide-6 {
-  padding: 60px 1rem 2rem;
-  flex-direction: column;
-  gap: 1.2rem;
-  overflow-y: auto;
-}
-
-.slide6-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  width: 100%;
-  max-width: 520px;
-}
-
-.section-heading {
-  text-align: center;
-}
-
-.section-heading h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
-  color: var(--burgundy);
-  font-weight: 400;
-}
-
-.section-heading h2 em { font-style: italic; }
-
-.ornament {
-  width: 160px;
-  height: 14px;
-  margin: 0.5rem auto 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 14'%3E%3Cline x1='0' y1='7' x2='60' y2='7' stroke='%23C9A96E' stroke-width='0.7'/%3E%3Ccircle cx='80' cy='7' r='3.5' fill='none' stroke='%23C9A96E' stroke-width='0.7'/%3E%3Ccircle cx='80' cy='7' r='1.5' fill='%23C9A96E'/%3E%3Cline x1='100' y1='7' x2='160' y2='7' stroke='%23C9A96E' stroke-width='0.7'/%3E%3Ccircle cx='66' cy='7' r='1.5' fill='%23C9A96E' opacity='0.5'/%3E%3Ccircle cx='94' cy='7' r='1.5' fill='%23C9A96E' opacity='0.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-.rsvp-card {
-  background: rgba(245,239,230,0.92);
-  border: 1px solid rgba(201,169,110,0.4);
-  border-radius: 4px;
-  padding: 2rem 1.8rem;
-  width: 100%;
-  box-shadow: 0 15px 45px rgba(107,26,42,0.18);
-  backdrop-filter: blur(8px);
-  position: relative;
-  overflow: hidden;
-}
-
-.rsvp-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 8%; right: 8%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
-.form-row { margin-bottom: 1rem; }
-.form-lbl { display: block; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-mid); margin-bottom: 0.35rem; }
-.form-input, .form-select, .form-textarea {
-  width: 100%;
-  padding: 0.7rem 0.9rem;
-  background: rgba(255,255,255,0.75);
-  border: 1px solid rgba(107,26,42,0.22);
-  border-radius: 2px;
-  font-family: 'EB Garamond', serif;
-  font-size: 0.95rem;
-  color: var(--text-dark);
-  outline: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: var(--burgundy);
-  box-shadow: 0 0 0 3px rgba(107,26,42,0.07);
-  background: rgba(255,255,255,0.92);
-}
-
-.form-textarea { resize: vertical; min-height: 70px; }
-
-.radio-row { display: flex; gap: 1.2rem; flex-wrap: wrap; }
-.radio-lbl { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; color: var(--text-mid); }
-.radio-lbl input { accent-color: var(--burgundy); width: 15px; height: 15px; }
-
-.btn-submit {
-  width: 100%;
-  padding: 0.9rem;
-  background: var(--burgundy);
-  color: var(--cream);
-  border: none;
-  border-radius: 2px;
-  font-family: 'EB Garamond', serif;
-  font-size: 0.88rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin-top: 0.3rem;
-}
-
-.btn-submit:hover { background: var(--burgundy-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,26,42,0.3); }
-
-.form-success { display: none; text-align: center; padding: 1.5rem 0; }
-.form-success-emoji { font-size: 2.5rem; display: block; margin-bottom: 0.7rem; }
-.form-success h3 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.8rem; color: var(--burgundy); margin-bottom: 0.4rem; }
-.form-success p { color: var(--text-mid); font-size: 0.9rem; line-height: 1.7; }
-
-/* RSVP list */
-.rsvp-list-box {
-  width: 100%;
-  background: rgba(245,239,230,0.8);
-  border: 1px solid rgba(201,169,110,0.3);
-  border-radius: 4px;
-  padding: 1rem 1.2rem;
-  backdrop-filter: blur(6px);
-}
-
-.rsvp-list-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.7rem; }
-.rsvp-list-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: var(--burgundy); }
-.rsvp-badge-count { background: var(--burgundy); color: var(--cream); font-size: 0.7rem; padding: 0.15rem 0.55rem; border-radius: 20px; letter-spacing: 0.05em; }
-.rsvp-entries { max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.4rem; }
-.rsvp-entries::-webkit-scrollbar { width: 3px; }
-.rsvp-entries::-webkit-scrollbar-thumb { background: var(--burgundy); border-radius: 2px; }
-
-.rsvp-entry { background: rgba(255,255,255,0.6); border: 1px solid rgba(201,169,110,0.2); border-radius: 2px; padding: 0.55rem 0.8rem; display: flex; justify-content: space-between; align-items: center; animation: slideIn 0.4s ease; }
-.rsvp-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.95rem; color: var(--burgundy); }
-.rsvp-status { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.12rem 0.45rem; border-radius: 20px; }
-.rsvp-status.hadir { background: rgba(60,120,60,0.12); color: #3A7A3A; }
-.rsvp-status.tidak { background: rgba(180,60,60,0.12); color: #8B2020; }
-
-/* ═══════════════════════════════════
-   SECTION 7: GALERI
-   ═══════════════════════════════════ */
-#slide-7 {
-  padding: 60px 1rem 2rem;
-  flex-direction: column;
-  gap: 1rem;
-  overflow-y: auto;
-}
-
-.slide7-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  width: 100%;
-  max-width: 660px;
-}
-
-.upload-zone {
-  width: 100%;
-  max-width: 520px;
-  background: rgba(245,239,230,0.85);
-  border: 2px dashed rgba(107,26,42,0.3);
-  border-radius: 4px;
-  padding: 1.8rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-  backdrop-filter: blur(6px);
-}
-
-.upload-zone:hover, .upload-zone.drag-over { border-color: var(--burgundy); background: rgba(245,239,230,0.97); }
-.upload-zone input[type="file"] { display: none; }
-.upload-icon { font-size: 2.2rem; display: block; margin-bottom: 0.5rem; }
-.upload-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: var(--burgundy); }
-.upload-sub { font-size: 0.75rem; color: var(--text-mid); letter-spacing: 0.08em; margin-top: 0.2rem; }
-
-.uploader-name-row {
-  width: 100%;
-  max-width: 520px;
-  display: flex;
-  gap: 0.7rem;
-}
-
-.gallery-mosaic {
-  width: 100%;
-  columns: 3;
-  column-gap: 0.6rem;
-}
-
-.gallery-photo {
-  break-inside: avoid;
-  margin-bottom: 0.6rem;
-  border-radius: 3px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(107,26,42,0.15);
-  cursor: pointer;
-  transition: transform 0.3s;
-  position: relative;
-  animation: fadeIn 0.5s ease;
-}
-
-.gallery-photo:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(107,26,42,0.25); }
-.gallery-photo img { width: 100%; display: block; object-fit: cover; }
-.gallery-photo-name { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.4rem; background: linear-gradient(transparent, rgba(74,15,28,0.65)); font-size: 0.68rem; color: rgba(245,239,230,0.9); text-align: center; letter-spacing: 0.06em; }
-
-.gallery-empty { text-align: center; color: var(--text-mid); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; padding: 1.5rem; }
-
-/* QR card */
-.qr-box {
-  width: 100%;
-  max-width: 520px;
-  background: rgba(245,239,230,0.88);
-  border: 1px solid rgba(201,169,110,0.35);
-  border-radius: 4px;
-  padding: 1.2rem 1.5rem;
-  display: flex;
-  gap: 1.2rem;
-  align-items: center;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 6px 20px rgba(107,26,42,0.1);
-}
-
-.qr-img-wrap {
-  width: 80px; height: 80px;
-  background: var(--cream-warm);
-  border: 1px solid rgba(107,26,42,0.2);
-  border-radius: 3px;
-  flex-shrink: 0;
-  overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-}
-
-.qr-img-wrap canvas { width: 80px !important; height: 80px !important; }
-.qr-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; color: var(--burgundy); margin-bottom: 0.3rem; }
-.qr-sub { font-size: 0.75rem; color: var(--text-mid); line-height: 1.6; }
-.qr-btn { margin-top: 0.6rem; padding: 0.45rem 1rem; background: var(--burgundy); color: var(--cream); border: none; border-radius: 2px; font-family: 'EB Garamond', serif; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.3s; }
-.qr-btn:hover { background: var(--burgundy-dark); }
-
-/* ═══════════════════════════════════
-   LIGHTBOX
-   ═══════════════════════════════════ */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(20,5,10,0.95);
-  z-index: 9999;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.lightbox.on { display: flex; }
-.lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 3px; box-shadow: 0 0 80px rgba(107,26,42,0.4); }
-.lb-close { position: absolute; top: 1.2rem; right: 1.5rem; background: none; border: 1px solid rgba(245,239,230,0.3); color: var(--cream); width: 38px; height: 38px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
-.lb-close:hover { background: rgba(245,239,230,0.1); }
-
-/* ═══════════════════════════════════
-   LILY FLOWER SVG COMPONENT
-   ═══════════════════════════════════ */
-.lily-flower {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* ═══════════════════════════════════
-   ANIMATIONS
-   ═══════════════════════════════════ */
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-.float-anim { animation: float 4s ease-in-out infinite; }
-
-/* ═══════════════════════════════════
-   MOBILE RESPONSIVE
-   ═══════════════════════════════════ */
-@media (max-width: 600px) {
-  .nav-links { display: none; flex-direction: column; position: absolute; top: 52px; left: 0; right: 0; background: rgba(255,255,255,0.97); padding: 0.5rem 1.5rem 1rem; gap: 0.2rem; border-bottom: 1px solid rgba(107,26,42,0.1); }
-  .nav-links.open { display: flex; }
-  .nav-hamburger { display: block; }
-  .info-row { grid-template-columns: 1fr; }
-  .gallery-mosaic { columns: 2; }
-  .qr-box { flex-direction: column; text-align: center; }
-  .aturcara-card { width: 90%; }
-  .maklumat-card { width: 78%; }
-  .invite-card { width: 60%; padding: 0.9rem 0.7rem; }
-}
-
-/* Slide 5,6,7 scroll fix */
-#slide-5, #slide-6, #slide-7 {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  align-items: center;
-  justify-content: flex-start;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kad Jemputan | Najwa & Azrai | 31 Mei 2026</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Playfair+Display:ital,wght@0,400;1,400;1,700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/slide1-2.css">
+  <link rel="stylesheet" href="css/slide3-4.css">
+  <link rel="stylesheet" href="css/slide5-6.css">
+  <link rel="stylesheet" href="css/slide7-misc.css">
 </head>
 <body>
 
@@ -1383,710 +50,444 @@ nav {
 <!-- ═══ DOTS ═══ -->
 <div class="nav-dots" id="navDots"></div>
 
-<!-- ═══════════════════════════════════════════════
+<!-- ════════════════════════════════════════
      SLIDER
-═══════════════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="slider" id="slider">
 
-<!-- ─── SLIDE 1: KAD JEMPUTAN ─── -->
-<div class="slide active" id="slide-1">
-  <p class="s1-tagline">A N D A &nbsp; D I J E M P U T</p>
+  <!-- ─── SLIDE 1: KAD JEMPUTAN ─── -->
+  <div class="slide active" id="slide-1">
+    <p class="s1-tagline">A N D A &nbsp; D I J E M P U T</p>
 
-  <div class="envelope-stage float-anim" id="envelopeStage" onclick="openEnvelope()">
-    <div class="env">
-      <div class="env-body"></div>
-      <div class="env-tri-left"></div>
-      <div class="env-tri-right"></div>
-      <div class="env-flap"></div>
+    <div class="envelope-stage float-anim" id="envelopeStage" onclick="openEnvelope()">
+      <div class="env">
+        <div class="env-body"></div>
+        <div class="env-tri-left"></div>
+        <div class="env-tri-right"></div>
+        <div class="env-flap"></div>
 
-      <!-- Heart wax seal -->
-      <div class="env-seal">
-        <svg viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="heartGrad" cx="35%" cy="30%">
-              <stop offset="0%" stop-color="#B03050"/>
-              <stop offset="60%" stop-color="#7A1E2E"/>
-              <stop offset="100%" stop-color="#5C1020"/>
-            </radialGradient>
-          </defs>
-          <path d="M29,52 C29,52 5,36 5,19 C5,10.7 11.7,5 19,5 C23.5,5 27.4,7.2 29,10.5 C30.6,7.2 34.5,5 39,5 C46.3,5 53,10.7 53,19 C53,36 29,52 29,52 Z" fill="url(#heartGrad)"/>
-          <path d="M29,50 C29,50 7,34.5 7,19 C7,11.8 13,7 19,7 C23.2,7 26.8,9.1 28.5,12.2" fill="rgba(255,255,255,0.06)"/>
-          <text x="29" y="30" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(230,205,190,0.9)" letter-spacing="0.5">NA</text>
+        <!-- Heart wax seal -->
+        <div class="env-seal">
+          <svg viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="heartGrad" cx="35%" cy="30%">
+                <stop offset="0%" stop-color="#B03050"/>
+                <stop offset="60%" stop-color="#7A1E2E"/>
+                <stop offset="100%" stop-color="#5C1020"/>
+              </radialGradient>
+            </defs>
+            <path d="M29,52 C29,52 5,36 5,19 C5,10.7 11.7,5 19,5 C23.5,5 27.4,7.2 29,10.5 C30.6,7.2 34.5,5 39,5 C46.3,5 53,10.7 53,19 C53,36 29,52 29,52 Z" fill="url(#heartGrad)"/>
+            <path d="M29,50 C29,50 7,34.5 7,19 C7,11.8 13,7 19,7 C23.2,7 26.8,9.1 28.5,12.2" fill="rgba(255,255,255,0.06)"/>
+            <text x="29" y="30" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="rgba(230,205,190,0.9)" letter-spacing="0.5">NA</text>
+          </svg>
+        </div>
+
+        <!-- Card inside -->
+        <div class="env-inner-card">
+          <div class="monogram">NA</div>
+          <div class="names">NAJWA &nbsp;|&nbsp; AZRAI</div>
+        </div>
+
+        <!-- Sila Buka text -->
+        <div class="env-sila-buka">Sila Buka!</div>
+      </div>
+    </div>
+
+    <p class="s1-date">3 1 &nbsp; M e i &nbsp; 2 0 2 6</p>
+  </div>
+
+  <!-- ─── SLIDE 2: JEMPUTAN ─── -->
+  <div class="slide" id="slide-2">
+    <div class="jemputan-scene">
+
+      <div class="lace-doily"></div>
+
+      <!-- Invitation card (rotated, left) -->
+      <div class="invite-card">
+        <div class="bismillah-text">﷽</div>
+        <div class="greeting">ASSALAMUALAIKUM DAN SALAM SEJAHTERA<br>DENGAN PENUH KESYUKURAN KAMI,</div>
+        <div class="parent-name">Hj Rozianuar Bin Daud</div>
+        <div style="font-size:0.6rem;color:var(--gold);letter-spacing:0.2em;margin:0.3rem 0;">&amp;</div>
+        <div class="parent-name">Hjh Siti Noormala Binti Rahmat</div>
+        <div class="small-text">Dengan izin Allah, kami mengundang:<br>DATO' / DATIN/ TUAN/ PUAN/ ENCIK/ CIK<br>ke majlis santapan pagi ijab dan kabul permata hati kami,</div>
+        <div class="couple-name">Nur Najwa Najat Binti Rozianuar</div>
+        <div style="font-size:0.6rem;color:var(--text-mid);font-style:italic;font-family:'Cormorant Garamond';margin:0.15rem 0;">dengan cinta hatinya</div>
+        <div class="couple-name">Anwar Nur Azrai Bin Mohamad</div>
+      </div>
+
+      <!-- Envelope right side -->
+      <div class="scene-envelope">
+        <div class="scene-env-flap"></div>
+        <div class="scene-env-seal">
+          <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="hg2" cx="35%" cy="30%"><stop offset="0%" stop-color="#B03050"/><stop offset="100%" stop-color="#5C1020"/></radialGradient></defs>
+            <path d="M26,47 C26,47 4,33 4,18 C4,10.5 10,5 17,5 C21,5 24.5,7 26,9.8 C27.5,7 31,5 35,5 C42,5 48,10.5 48,18 C48,33 26,47 26,47Z" fill="url(#hg2)"/>
+            <text x="26" y="26" text-anchor="middle" font-family="Cormorant Garamond,serif" font-style="italic" font-size="10" fill="rgba(230,205,190,0.9)">NA</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="key-icon">🗝</div>
+
+      <!-- RSVP action card -->
+      <div class="scene-overlay-cards">
+        <a class="scene-action-card" onclick="goTo(5); closeNav();">
+          <span class="card-label">tekan sini untuk</span>
+          <span class="card-script">RSVP</span>
+        </a>
+      </div>
+
+      <!-- Aturcara action card -->
+      <div style="position:absolute;right:2%;top:8%;z-index:20;">
+        <div class="scene-action-card" onclick="goTo(3);" style="width:120px;">
+          <span class="card-label">tekan sini untuk</span>
+          <span class="card-script" style="font-size:1rem;line-height:1.3;">atur cara<br>majlis</span>
+        </div>
+      </div>
+
+      <!-- Left lily -->
+      <div class="lily" style="left:-4%;top:18%;width:80px;opacity:0.85;">
+        <svg viewBox="0 0 80 140" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40,140 C40,140 38,100 42,70 C44,55 38,40 40,20" stroke="#8BA888" stroke-width="1.5" fill="none"/>
+          <ellipse cx="40" cy="35" rx="8" ry="18" fill="rgba(220,175,180,0.75)" transform="rotate(-20,40,35)"/>
+          <ellipse cx="40" cy="35" rx="8" ry="18" fill="rgba(225,180,185,0.7)" transform="rotate(20,40,35)"/>
+          <ellipse cx="40" cy="35" rx="7" ry="16" fill="rgba(230,185,190,0.75)" transform="rotate(0,40,35)"/>
+          <ellipse cx="28" cy="45" rx="7" ry="16" fill="rgba(218,172,178,0.7)" transform="rotate(-60,28,45)"/>
+          <ellipse cx="52" cy="45" rx="7" ry="16" fill="rgba(218,172,178,0.7)" transform="rotate(60,52,45)"/>
+          <ellipse cx="52" cy="85" rx="6" ry="14" fill="rgba(120,170,115,0.6)" transform="rotate(35,52,85)"/>
+          <ellipse cx="30" cy="100" rx="5" ry="12" fill="rgba(115,165,110,0.55)" transform="rotate(-30,30,100)"/>
         </svg>
       </div>
 
-      <!-- Card inside -->
-      <div class="env-inner-card">
-        <div class="monogram">NA</div>
-        <div class="names">NAJWA &nbsp;|&nbsp; AZRAI</div>
-      </div>
-
-      <!-- Sila Buka text -->
-      <div class="env-sila-buka">Sila Buka!</div>
-    </div>
-  </div>
-
-  <p class="s1-date">3 1 &nbsp; M e i &nbsp; 2 0 2 6</p>
-</div>
-
-<!-- ─── SLIDE 2: JEMPUTAN (scene) ─── -->
-<div class="slide" id="slide-2">
-  <div class="jemputan-scene">
-
-    <!-- Lace doily behind -->
-    <div class="lace-doily"></div>
-
-    <!-- Invite card (rotated, left) -->
-    <div class="invite-card">
-      <div class="bismillah-text">﷽</div>
-      <div class="greeting">ASSALAMUALAIKUM DAN SALAM SEJAHTERA<br>DENGAN PENUH KESYUKURAN KAMI,</div>
-      <div class="parent-name">Hj Rozianuar Bin Daud</div>
-      <div style="font-size:0.6rem;color:var(--gold);letter-spacing:0.2em;margin:0.3rem 0;">&amp;</div>
-      <div class="parent-name">Hjh Siti Noormala Binti Rahmat</div>
-      <div class="small-text">Dengan izin Allah, kami mengundang:<br>DATO' / DATIN/ TUAN/ PUAN/ ENCIK/ CIK<br>ke majlis santapan pagi ijab dan kabul permata hati kami,</div>
-      <div class="couple-name">Nur Najwa Najat Binti Rozianuar</div>
-      <div style="font-size:0.6rem;color:var(--text-mid);font-style:italic;font-family:'Cormorant Garamond';margin:0.15rem 0;">dengan cinta hatinya</div>
-      <div class="couple-name">Anwar Nur Azrai Bin Mohamad</div>
-    </div>
-
-    <!-- Envelope right side -->
-    <div class="scene-envelope">
-      <div class="scene-env-flap"></div>
-      <!-- Heart seal top right -->
-      <div class="scene-env-seal">
-        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-          <defs><radialGradient id="hg2" cx="35%" cy="30%"><stop offset="0%" stop-color="#B03050"/><stop offset="100%" stop-color="#5C1020"/></radialGradient></defs>
-          <path d="M26,47 C26,47 4,33 4,18 C4,10.5 10,5 17,5 C21,5 24.5,7 26,9.8 C27.5,7 31,5 35,5 C42,5 48,10.5 48,18 C48,33 26,47 26,47Z" fill="url(#hg2)"/>
-          <text x="26" y="26" text-anchor="middle" font-family="Cormorant Garamond,serif" font-style="italic" font-size="10" fill="rgba(230,205,190,0.9)">NA</text>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Key icon -->
-    <div class="key-icon">🗝</div>
-
-    <!-- Action cards bottom left -->
-    <div class="scene-overlay-cards">
-      <a class="scene-action-card" onclick="goTo(5); closeNav();">
-        <span class="card-label">tekan sini untuk</span>
-        <span class="card-script">RSVP</span>
-      </a>
-    </div>
-
-    <!-- Aturcara card top right -->
-    <div style="position:absolute;right:2%;top:8%;z-index:20;">
-      <div class="scene-action-card" onclick="goTo(3);" style="width:120px;">
-        <span class="card-label">tekan sini untuk</span>
-        <span class="card-script" style="font-size:1rem;line-height:1.3;">atur cara<br>majlis</span>
-      </div>
-    </div>
-
-    <!-- Lily flowers (CSS-drawn) -->
-    <!-- Left lily -->
-    <div class="lily" style="left:-4%;top:18%;width:80px;opacity:0.85;">
-      <svg viewBox="0 0 80 140" xmlns="http://www.w3.org/2000/svg">
-        <!-- stem -->
-        <path d="M40,140 C40,140 38,100 42,70 C44,55 38,40 40,20" stroke="#8BA888" stroke-width="1.5" fill="none"/>
-        <!-- petals -->
-        <ellipse cx="40" cy="35" rx="8" ry="18" fill="rgba(220,175,180,0.75)" transform="rotate(-20,40,35)"/>
-        <ellipse cx="40" cy="35" rx="8" ry="18" fill="rgba(225,180,185,0.7)" transform="rotate(20,40,35)"/>
-        <ellipse cx="40" cy="35" rx="7" ry="16" fill="rgba(230,185,190,0.75)" transform="rotate(0,40,35)"/>
-        <ellipse cx="28" cy="45" rx="7" ry="16" fill="rgba(218,172,178,0.7)" transform="rotate(-60,28,45)"/>
-        <ellipse cx="52" cy="45" rx="7" ry="16" fill="rgba(218,172,178,0.7)" transform="rotate(60,52,45)"/>
-        <!-- leaf -->
-        <ellipse cx="52" cy="85" rx="6" ry="14" fill="rgba(120,170,115,0.6)" transform="rotate(35,52,85)"/>
-        <ellipse cx="30" cy="100" rx="5" ry="12" fill="rgba(115,165,110,0.55)" transform="rotate(-30,30,100)"/>
-      </svg>
-    </div>
-
-    <!-- Bottom right lily -->
-    <div class="lily" style="right:-3%;bottom:5%;width:90px;opacity:0.8;">
-      <svg viewBox="0 0 90 150" xmlns="http://www.w3.org/2000/svg">
-        <path d="M45,150 C45,150 43,110 47,80 C49,65 44,50 45,25" stroke="#8BA888" stroke-width="1.5" fill="none"/>
-        <ellipse cx="45" cy="40" rx="8" ry="18" fill="rgba(220,175,180,0.75)" transform="rotate(-20,45,40)"/>
-        <ellipse cx="45" cy="40" rx="8" ry="18" fill="rgba(225,180,185,0.7)" transform="rotate(20,45,40)"/>
-        <ellipse cx="45" cy="40" rx="7" ry="16" fill="rgba(230,185,190,0.75)"/>
-        <ellipse cx="33" cy="50" rx="7" ry="16" fill="rgba(218,172,178,0.7)" transform="rotate(-60,33,50)"/>
-        <ellipse cx="57" cy="50" rx="7" ry="16" fill="rgba(218,172,178,0.7)" transform="rotate(60,57,50)"/>
-        <ellipse cx="60" cy="90" rx="6" ry="13" fill="rgba(120,170,115,0.55)" transform="rotate(35,60,90)"/>
-      </svg>
-    </div>
-
-    <!-- Maklumat tab bottom -->
-    <div class="maklumat-tab" onclick="goTo(4);">
-      <span class="tab-label">Maklumat</span>
-      <span class="tab-script">Jemputan</span>
-    </div>
-  </div>
-</div>
-
-<!-- ─── SLIDE 3: FULL INVITE CARD IN ENVELOPE ─── -->
-<div class="slide" id="slide-3">
-  <div class="maklumat-scene">
-
-    <!-- Envelope behind -->
-    <div class="maklumat-env">
-      <div class="maklumat-env-flap"></div>
-      <div class="maklumat-env-tri-l"></div>
-      <div class="maklumat-env-tri-r"></div>
-      <!-- Seal -->
-      <div class="maklumat-env-seal" style="bottom:35%;left:50%;transform:translateX(-50%);">
-        <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-          <defs><radialGradient id="hg3" cx="35%" cy="30%"><stop offset="0%" stop-color="#B03050"/><stop offset="100%" stop-color="#5C1020"/></radialGradient></defs>
-          <path d="M28,50 C28,50 5,35 5,18 C5,10.5 11,5 18,5 C22,5 25.5,7 28,9.8 C30.5,7 34,5 38,5 C45,5 51,10.5 51,18 C51,35 28,50 28,50Z" fill="url(#hg3)"/>
-          <text x="28" y="26" text-anchor="middle" font-family="Cormorant Garamond,serif" font-style="italic" font-size="10" fill="rgba(230,205,190,0.9)">NA</text>
-        </svg>
-      </div>
-    </div>
-
-    <!-- The rising card -->
-    <div class="maklumat-card">
-      <div class="mc-bismillah">﷽</div>
-      <div class="mc-greeting">ASSALAMUALAIKUM DAN SALAM SEJAHTERA<br>DENGAN PENUH KESYUKURAN KAMI,</div>
-      <div class="mc-parent">Hj Rozianuar Bin Daud</div>
-      <div class="mc-divider"></div>
-      <div class="mc-parent">Hjh Siti Noormala Binti Rahmat</div>
-      <div class="mc-invite">Dengan izin Allah, kami mengundang:<br>DATO' / DATIN/ TUAN/ PUAN/ ENCIK/ CIK<br>ke majlis santapan pagi ijab dan kabul permata hati kami,</div>
-      <div class="mc-couple">Nur Najwa Najat Binti Rozianuar</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.85rem;color:var(--text-mid);margin:0.3rem 0;">dengan cinta hatinya</div>
-      <div class="mc-couple">Anwar Nur Azrai Bin Mohamad</div>
-    </div>
-
-    <!-- & symbol left side -->
-    <div class="m3-ampersand">&amp;</div>
-
-    <!-- Left lily -->
-    <div class="m3-lily-left" style="bottom:10%;left:-10%;">
-      <svg viewBox="0 0 120 180" xmlns="http://www.w3.org/2000/svg">
-        <path d="M60,180 C60,180 57,135 63,100 C66,80 58,58 60,25" stroke="#8BA888" stroke-width="2" fill="none"/>
-        <ellipse cx="60" cy="45" rx="11" ry="24" fill="rgba(220,175,180,0.8)" transform="rotate(-22,60,45)"/>
-        <ellipse cx="60" cy="45" rx="11" ry="24" fill="rgba(225,180,185,0.75)" transform="rotate(22,60,45)"/>
-        <ellipse cx="60" cy="45" rx="10" ry="22" fill="rgba(232,188,192,0.8)"/>
-        <ellipse cx="42" cy="60" rx="9" ry="20" fill="rgba(218,172,178,0.75)" transform="rotate(-65,42,60)"/>
-        <ellipse cx="78" cy="60" rx="9" ry="20" fill="rgba(218,172,178,0.75)" transform="rotate(65,78,60)"/>
-        <ellipse cx="80" cy="115" rx="8" ry="18" fill="rgba(120,170,115,0.6)" transform="rotate(40,80,115)"/>
-        <ellipse cx="42" cy="135" rx="7" ry="16" fill="rgba(115,165,110,0.55)" transform="rotate(-32,42,135)"/>
-      </svg>
-    </div>
-
-    <!-- Right lily -->
-    <div class="m3-lily-right" style="right:-8%;top:30%;">
-      <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50,160 C50,160 48,120 52,88 C54,72 49,55 50,22" stroke="#8BA888" stroke-width="1.8" fill="none"/>
-        <ellipse cx="50" cy="38" rx="9" ry="20" fill="rgba(220,175,180,0.78)" transform="rotate(-20,50,38)"/>
-        <ellipse cx="50" cy="38" rx="9" ry="20" fill="rgba(225,180,185,0.73)" transform="rotate(20,50,38)"/>
-        <ellipse cx="50" cy="38" rx="8" ry="18" fill="rgba(232,188,192,0.78)"/>
-        <ellipse cx="36" cy="52" rx="8" ry="18" fill="rgba(218,172,178,0.72)" transform="rotate(-62,36,52)"/>
-        <ellipse cx="64" cy="52" rx="8" ry="18" fill="rgba(218,172,178,0.72)" transform="rotate(62,64,52)"/>
-        <ellipse cx="66" cy="105" rx="7" ry="15" fill="rgba(120,170,115,0.55)" transform="rotate(38,66,105)"/>
-      </svg>
-    </div>
-  </div>
-</div>
-
-<!-- ─── SLIDE 4: ATURCARA MAJLIS ─── -->
-<div class="slide" id="slide-4">
-  <div class="aturcara-scene">
-    <!-- Lace backing -->
-    <div class="aturcara-lace"></div>
-
-    <!-- Dark card -->
-    <div class="aturcara-card">
-      <!-- Heart seal top-left corner -->
-      <div class="aturcara-heart-seal">
-        <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-          <defs><radialGradient id="hg4" cx="35%" cy="30%"><stop offset="0%" stop-color="#B03050"/><stop offset="100%" stop-color="#5C1020"/></radialGradient></defs>
-          <path d="M28,50 C28,50 5,35 5,18 C5,10.5 11,5 18,5 C22,5 25.5,7 28,9.8 C30.5,7 34,5 38,5 C45,5 51,10.5 51,18 C51,35 28,50 28,50Z" fill="url(#hg4)"/>
-          <text x="28" y="26" text-anchor="middle" font-family="Cormorant Garamond,serif" font-style="italic" font-size="10" fill="rgba(230,205,190,0.9)">NA</text>
+      <!-- Bottom right lily -->
+      <div class="lily" style="right:-3%;bottom:5%;width:90px;opacity:0.8;">
+        <svg viewBox="0 0 90 150" xmlns="http://www.w3.org/2000/svg">
+          <path d="M45,150 C45,150 43,110 47,80 C49,65 44,50 45,25" stroke="#8BA888" stroke-width="1.5" fill="none"/>
+          <ellipse cx="45" cy="40" rx="8" ry="18" fill="rgba(220,175,180,0.75)" transform="rotate(-20,45,40)"/>
+          <ellipse cx="45" cy="40" rx="8" ry="18" fill="rgba(225,180,185,0.7)" transform="rotate(20,45,40)"/>
+          <ellipse cx="45" cy="40" rx="7" ry="16" fill="rgba(230,185,190,0.75)"/>
+          <ellipse cx="33" cy="50" rx="7" ry="16" fill="rgba(218,172,178,0.7)" transform="rotate(-60,33,50)"/>
+          <ellipse cx="57" cy="50" rx="7" ry="16" fill="rgba(218,172,178,0.7)" transform="rotate(60,57,50)"/>
+          <ellipse cx="60" cy="90" rx="6" ry="13" fill="rgba(120,170,115,0.55)" transform="rotate(35,60,90)"/>
         </svg>
       </div>
 
-      <div class="aturcara-card-title">
-        <span class="serif-label">Aturcara</span>
-        <span class="script">Majlis</span>
-      </div>
-      <div class="aturcara-divider"></div>
-
-      <ul class="aturcara-list">
-        <li class="aturcara-item">
-          <div class="aturcara-icon">
-            <svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="13" rx="1"/><line x1="8" y1="5" x2="8" y2="11"/><line x1="16" y1="5" x2="16" y2="11"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
-          </div>
-          <div class="aturcara-info">
-            <div class="aturcara-time">8:30 AM</div>
-            <div class="aturcara-desc">santapan pagi bermula</div>
-          </div>
-        </li>
-        <li class="aturcara-item">
-          <div class="aturcara-icon">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M8,4 C8,4 7,1 5,1 C3,1 3,4 3,4"/><path d="M16,4 C16,4 17,1 19,1 C21,1 21,4 21,4"/></svg>
-          </div>
-          <div class="aturcara-info">
-            <div class="aturcara-time">9 AM</div>
-            <div class="aturcara-desc">ketibaan pengantin</div>
-          </div>
-        </li>
-        <li class="aturcara-item">
-          <div class="aturcara-icon">
-            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="4"/><path d="M8,7 L8,5 A4,4 0 0 1 16,5 L16,7"/></svg>
-          </div>
-          <div class="aturcara-info">
-            <div class="aturcara-time">10 AM</div>
-            <div class="aturcara-desc">sesi bergambar</div>
-          </div>
-        </li>
-        <li class="aturcara-item">
-          <div class="aturcara-icon">
-            <svg viewBox="0 0 24 24"><path d="M12,2 C12,2 6,6 6,11 C6,14 9,17 12,17 C15,17 18,14 18,11 C18,6 12,2 12,2Z"/><rect x="7" y="17" width="10" height="3" rx="1"/><rect x="9" y="20" width="6" height="2" rx="1"/></svg>
-          </div>
-          <div class="aturcara-info">
-            <div class="aturcara-time">10:30 AM</div>
-            <div class="aturcara-desc">Sesi potong pulut kuning</div>
-          </div>
-        </li>
-        <li class="aturcara-item">
-          <div class="aturcara-icon">
-            <svg viewBox="0 0 24 24"><rect x="2" y="12" width="6" height="5" rx="1"/><circle cx="5" cy="18" r="2"/><rect x="16" y="12" width="6" height="5" rx="1"/><circle cx="19" cy="18" r="2"/><path d="M8,17 L16,17"/><path d="M8,14 L12,10 L16,14"/><path d="M12,10 L12,6"/></svg>
-          </div>
-          <div class="aturcara-info">
-            <div class="aturcara-time">12 PM</div>
-            <div class="aturcara-desc">Majlis bersurai</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Lily bottom right -->
-    <div class="a4-lily">
-      <svg viewBox="0 0 130 190" xmlns="http://www.w3.org/2000/svg">
-        <path d="M65,190 C65,190 62,145 68,108 C71,88 64,68 65,30" stroke="#8BA888" stroke-width="2" fill="none"/>
-        <ellipse cx="65" cy="50" rx="12" ry="26" fill="rgba(220,175,180,0.8)" transform="rotate(-22,65,50)"/>
-        <ellipse cx="65" cy="50" rx="12" ry="26" fill="rgba(225,180,185,0.75)" transform="rotate(22,65,50)"/>
-        <ellipse cx="65" cy="50" rx="11" ry="24" fill="rgba(232,188,192,0.8)"/>
-        <ellipse cx="46" cy="66" rx="10" ry="22" fill="rgba(218,172,178,0.75)" transform="rotate(-65,46,66)"/>
-        <ellipse cx="84" cy="66" rx="10" ry="22" fill="rgba(218,172,178,0.75)" transform="rotate(65,84,66)"/>
-        <ellipse cx="88" cy="128" rx="9" ry="20" fill="rgba(120,170,115,0.6)" transform="rotate(40,88,128)"/>
-        <ellipse cx="44" cy="150" rx="8" ry="18" fill="rgba(115,165,110,0.55)" transform="rotate(-32,44,150)"/>
-      </svg>
-    </div>
-  </div>
-</div>
-
-<!-- ─── SLIDE 5: MAKLUMAT (Countdown + Venue + Map) ─── -->
-<div class="slide" id="slide-5">
-  <div class="slide5-inner">
-    <div class="section-heading">
-      <h2>Maklumat <em>Jemputan</em></h2>
-      <div class="ornament"></div>
-    </div>
-
-    <!-- Countdown -->
-    <div class="countdown-box">
-      <p class="countdown-label">Menghitung Hari · Counting Down</p>
-      <div class="countdown-nums">
-        <div class="c-unit"><span class="c-num" id="cDays">--</span><span class="c-label">Hari</span></div>
-        <span class="c-colon">:</span>
-        <div class="c-unit"><span class="c-num" id="cHours">--</span><span class="c-label">Jam</span></div>
-        <span class="c-colon">:</span>
-        <div class="c-unit"><span class="c-num" id="cMins">--</span><span class="c-label">Minit</span></div>
-        <span class="c-colon">:</span>
-        <div class="c-unit"><span class="c-num" id="cSecs">--</span><span class="c-label">Saat</span></div>
-      </div>
-    </div>
-
-    <!-- Info tiles -->
-    <div class="info-row">
-      <div class="info-tile">
-        <span class="info-tile-icon">🗓</span>
-        <p class="info-tile-lbl">Tarikh · Date</p>
-        <p class="info-tile-val">31 Mei 2026<br><small style="font-size:0.75rem;font-family:'EB Garamond';font-style:normal;color:var(--text-mid);">Ahad · Sunday</small></p>
-      </div>
-      <div class="info-tile">
-        <span class="info-tile-icon">🕗</span>
-        <p class="info-tile-lbl">Masa · Time</p>
-        <p class="info-tile-val">8:30 AM – 12 PM</p>
-      </div>
-      <div class="info-tile full">
-        <span class="info-tile-icon">🏛</span>
-        <p class="info-tile-lbl">Tempat · Venue</p>
-        <p class="info-tile-val">Dewan MPKS Saujana Utama<br><small style="font-size:0.72rem;font-family:'EB Garamond';font-style:normal;color:var(--text-mid);">Persiaran Saujana 3, Saujana Utama 1<br>47000 Sungai Buloh, Selangor</small></p>
-      </div>
-    </div>
-
-    <!-- Map -->
-    <div class="map-box">
-      <div class="map-bar">
-        <span style="font-size:1.3rem;">📍</span>
-        <div class="map-bar-text">
-          <div class="map-venue-name">Dewan MPKS Saujana Utama</div>
-          <div class="map-venue-addr">Persiaran Saujana 3, Saujana Utama 1, 47000 Sungai Buloh, Selangor</div>
-        </div>
-      </div>
-      <iframe class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU3Kuo&q=Dewan+MPKS+Saujana+Utama,Persiaran+Saujana+3,Saujana+Utama+1,47000+Sungai+Buloh,Selangor"
-        title="Venue map"></iframe>
-      <a class="map-dir-btn" href="https://maps.google.com/?q=Dewan+MPKS+Saujana+Utama,+Persiaran+Saujana+3,+Saujana+Utama+1,+47000+Sungai+Buloh,+Selangor" target="_blank">
-        🧭 Dapatkan Arah · Get Directions
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- ─── SLIDE 6: RSVP ─── -->
-<div class="slide" id="slide-6">
-  <div class="slide6-inner">
-    <div class="section-heading">
-      <h2>R S V P</h2>
-      <div class="ornament"></div>
-    </div>
-
-    <div class="rsvp-card">
-      <div id="rsvpForm">
-        <div class="form-row">
-          <label class="form-lbl" for="rName">Nama Penuh · Full Name *</label>
-          <input class="form-input" type="text" id="rName" placeholder="Masukkan nama anda...">
-        </div>
-        <div class="form-row">
-          <label class="form-lbl" for="rPhone">No. Telefon · Phone</label>
-          <input class="form-input" type="tel" id="rPhone" placeholder="+60 12-345 6789">
-        </div>
-        <div class="form-row">
-          <label class="form-lbl">Kehadiran · Attendance *</label>
-          <div class="radio-row">
-            <label class="radio-lbl"><input type="radio" name="att" value="hadir" checked> ✓ Hadir · Will Attend</label>
-            <label class="radio-lbl"><input type="radio" name="att" value="tidak"> ✗ Tidak Dapat Hadir</label>
-          </div>
-        </div>
-        <div class="form-row" id="guestRow">
-          <label class="form-lbl" for="rGuests">Bilangan Tetamu · Guests</label>
-          <select class="form-select" id="rGuests">
-            <option value="1">1 orang</option>
-            <option value="2">2 orang</option>
-            <option value="3">3 orang</option>
-            <option value="4">4 orang</option>
-            <option value="5">5 orang</option>
-            <option value="6+">6+ orang</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label class="form-lbl" for="rMsg">Ucapan · Message (Optional)</label>
-          <textarea class="form-textarea" id="rMsg" placeholder="Ucapan untuk pengantin..."></textarea>
-        </div>
-        <button class="btn-submit" onclick="submitRSVP()">Hantar RSVP · Submit ✦</button>
-      </div>
-      <div class="form-success" id="rsvpOK">
-        <span class="form-success-emoji">🌸</span>
-        <h3>Terima Kasih!</h3>
-        <p>RSVP anda telah diterima.<br><em>Your RSVP has been received.</em><br><br>Kami tidak sabar untuk berjumpa anda! 💕</p>
-      </div>
-    </div>
-
-    <div class="rsvp-list-box">
-      <div class="rsvp-list-hdr">
-        <span class="rsvp-list-title">Senarai Tetamu</span>
-        <span class="rsvp-badge-count" id="rsvpCount">0</span>
-      </div>
-      <div class="rsvp-entries" id="rsvpEntries">
-        <p style="text-align:center;color:var(--text-mid);font-style:italic;font-size:0.85rem;padding:0.5rem;">Belum ada RSVP lagi...</p>
+      <!-- Maklumat tab -->
+      <div class="maklumat-tab" onclick="goTo(4);">
+        <span class="tab-label">Maklumat</span>
+        <span class="tab-script">Jemputan</span>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ─── SLIDE 7: GALERI ─── -->
-<div class="slide" id="slide-7">
-  <div class="slide7-inner">
-    <div class="section-heading">
-      <h2>Galeri <em>Foto</em></h2>
-      <p style="font-size:0.78rem;color:var(--text-mid);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.3rem;">Kongsi kenangan anda</p>
-      <div class="ornament"></div>
-    </div>
+  <!-- ─── SLIDE 3: MAKLUMAT JEMPUTAN ─── -->
+  <div class="slide" id="slide-3">
+    <div class="maklumat-scene">
 
-    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileIn').click()"
-      ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="handleDragLeave(event)">
-      <input type="file" id="fileIn" accept="image/*" multiple onchange="handleFileSelect(event)">
-      <span class="upload-icon">📷</span>
-      <p class="upload-title">Muat Naik Foto · Upload Photos</p>
-      <p class="upload-sub">Klik atau seret gambar ke sini · Click or drag images</p>
-    </div>
+      <div class="maklumat-env">
+        <div class="maklumat-env-flap"></div>
+        <div class="maklumat-env-tri-l"></div>
+        <div class="maklumat-env-tri-r"></div>
+        <div class="maklumat-env-seal" style="bottom:35%;left:50%;transform:translateX(-50%);">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="hg3" cx="35%" cy="30%"><stop offset="0%" stop-color="#B03050"/><stop offset="100%" stop-color="#5C1020"/></radialGradient></defs>
+            <path d="M28,50 C28,50 5,35 5,18 C5,10.5 11,5 18,5 C22,5 25.5,7 28,9.8 C30.5,7 34,5 38,5 C45,5 51,10.5 51,18 C51,35 28,50 28,50Z" fill="url(#hg3)"/>
+            <text x="28" y="26" text-anchor="middle" font-family="Cormorant Garamond,serif" font-style="italic" font-size="10" fill="rgba(230,205,190,0.9)">NA</text>
+          </svg>
+        </div>
+      </div>
 
-    <div class="uploader-name-row">
-      <input class="form-input" type="text" id="uploaderName" placeholder="Nama anda · Your name (optional)" style="flex:1">
-    </div>
+      <!-- Full invitation card -->
+      <div class="maklumat-card">
+        <div class="mc-bismillah">﷽</div>
+        <div class="mc-greeting">ASSALAMUALAIKUM DAN SALAM SEJAHTERA<br>DENGAN PENUH KESYUKURAN KAMI,</div>
+        <div class="mc-parent">Hj Rozianuar Bin Daud</div>
+        <div class="mc-divider"></div>
+        <div class="mc-parent">Hjh Siti Noormala Binti Rahmat</div>
+        <div class="mc-invite">Dengan izin Allah, kami mengundang:<br>DATO' / DATIN/ TUAN/ PUAN/ ENCIK/ CIK<br>ke majlis santapan pagi ijab dan kabul permata hati kami,</div>
+        <div class="mc-couple">Nur Najwa Najat Binti Rozianuar</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.85rem;color:var(--text-mid);margin:0.3rem 0;">dengan cinta hatinya</div>
+        <div class="mc-couple">Anwar Nur Azrai Bin Mohamad</div>
+      </div>
 
-    <!-- QR Card -->
-    <div class="qr-box">
-      <div class="qr-img-wrap"><canvas id="qrCanvas"></canvas></div>
-      <div>
-        <p class="qr-title">Imbas untuk Galeri</p>
-        <p class="qr-sub">Kongsi pautan ini supaya tetamu boleh muat naik &amp; lihat gambar secara langsung.</p>
-        <button class="qr-btn" onclick="copyLink()">🔗 Salin Pautan</button>
+      <div class="m3-ampersand">&amp;</div>
+
+      <!-- Left lily -->
+      <div class="m3-lily-left" style="bottom:10%;left:-10%;">
+        <svg viewBox="0 0 120 180" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60,180 C60,180 57,135 63,100 C66,80 58,58 60,25" stroke="#8BA888" stroke-width="2" fill="none"/>
+          <ellipse cx="60" cy="45" rx="11" ry="24" fill="rgba(220,175,180,0.8)" transform="rotate(-22,60,45)"/>
+          <ellipse cx="60" cy="45" rx="11" ry="24" fill="rgba(225,180,185,0.75)" transform="rotate(22,60,45)"/>
+          <ellipse cx="60" cy="45" rx="10" ry="22" fill="rgba(232,188,192,0.8)"/>
+          <ellipse cx="42" cy="60" rx="9" ry="20" fill="rgba(218,172,178,0.75)" transform="rotate(-65,42,60)"/>
+          <ellipse cx="78" cy="60" rx="9" ry="20" fill="rgba(218,172,178,0.75)" transform="rotate(65,78,60)"/>
+          <ellipse cx="80" cy="115" rx="8" ry="18" fill="rgba(120,170,115,0.6)" transform="rotate(40,80,115)"/>
+          <ellipse cx="42" cy="135" rx="7" ry="16" fill="rgba(115,165,110,0.55)" transform="rotate(-32,42,135)"/>
+        </svg>
+      </div>
+
+      <!-- Right lily -->
+      <div class="m3-lily-right" style="right:-8%;top:30%;">
+        <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50,160 C50,160 48,120 52,88 C54,72 49,55 50,22" stroke="#8BA888" stroke-width="1.8" fill="none"/>
+          <ellipse cx="50" cy="38" rx="9" ry="20" fill="rgba(220,175,180,0.78)" transform="rotate(-20,50,38)"/>
+          <ellipse cx="50" cy="38" rx="9" ry="20" fill="rgba(225,180,185,0.73)" transform="rotate(20,50,38)"/>
+          <ellipse cx="50" cy="38" rx="8" ry="18" fill="rgba(232,188,192,0.78)"/>
+          <ellipse cx="36" cy="52" rx="8" ry="18" fill="rgba(218,172,178,0.72)" transform="rotate(-62,36,52)"/>
+          <ellipse cx="64" cy="52" rx="8" ry="18" fill="rgba(218,172,178,0.72)" transform="rotate(62,64,52)"/>
+          <ellipse cx="66" cy="105" rx="7" ry="15" fill="rgba(120,170,115,0.55)" transform="rotate(38,66,105)"/>
+        </svg>
       </div>
     </div>
-
-    <div class="gallery-empty" id="galleryEmpty">🌸 Tiada gambar lagi · No photos yet<br><small>Jadilah yang pertama!</small></div>
-    <div class="gallery-mosaic" id="galleryGrid"></div>
   </div>
-</div>
+
+  <!-- ─── SLIDE 4: ATURCARA MAJLIS ─── -->
+  <div class="slide" id="slide-4">
+    <div class="aturcara-scene">
+      <div class="aturcara-lace"></div>
+
+      <div class="aturcara-card">
+        <!-- Heart seal -->
+        <div class="aturcara-heart-seal">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="hg4" cx="35%" cy="30%"><stop offset="0%" stop-color="#B03050"/><stop offset="100%" stop-color="#5C1020"/></radialGradient></defs>
+            <path d="M28,50 C28,50 5,35 5,18 C5,10.5 11,5 18,5 C22,5 25.5,7 28,9.8 C30.5,7 34,5 38,5 C45,5 51,10.5 51,18 C51,35 28,50 28,50Z" fill="url(#hg4)"/>
+            <text x="28" y="26" text-anchor="middle" font-family="Cormorant Garamond,serif" font-style="italic" font-size="10" fill="rgba(230,205,190,0.9)">NA</text>
+          </svg>
+        </div>
+
+        <div class="aturcara-card-title">
+          <span class="serif-label">Aturcara</span>
+          <span class="script">Majlis</span>
+        </div>
+        <div class="aturcara-divider"></div>
+
+        <ul class="aturcara-list">
+          <li class="aturcara-item">
+            <div class="aturcara-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="13" rx="1"/><line x1="8" y1="5" x2="8" y2="11"/><line x1="16" y1="5" x2="16" y2="11"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+            </div>
+            <div class="aturcara-info">
+              <div class="aturcara-time">8:30 AM</div>
+              <div class="aturcara-desc">santapan pagi bermula</div>
+            </div>
+          </li>
+          <li class="aturcara-item">
+            <div class="aturcara-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M8,4 C8,4 7,1 5,1 C3,1 3,4 3,4"/><path d="M16,4 C16,4 17,1 19,1 C21,1 21,4 21,4"/></svg>
+            </div>
+            <div class="aturcara-info">
+              <div class="aturcara-time">9 AM</div>
+              <div class="aturcara-desc">ketibaan pengantin</div>
+            </div>
+          </li>
+          <li class="aturcara-item">
+            <div class="aturcara-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="4"/><path d="M8,7 L8,5 A4,4 0 0 1 16,5 L16,7"/></svg>
+            </div>
+            <div class="aturcara-info">
+              <div class="aturcara-time">10 AM</div>
+              <div class="aturcara-desc">sesi bergambar</div>
+            </div>
+          </li>
+          <li class="aturcara-item">
+            <div class="aturcara-icon">
+              <svg viewBox="0 0 24 24"><path d="M12,2 C12,2 6,6 6,11 C6,14 9,17 12,17 C15,17 18,14 18,11 C18,6 12,2 12,2Z"/><rect x="7" y="17" width="10" height="3" rx="1"/><rect x="9" y="20" width="6" height="2" rx="1"/></svg>
+            </div>
+            <div class="aturcara-info">
+              <div class="aturcara-time">10:30 AM</div>
+              <div class="aturcara-desc">Sesi potong pulut kuning</div>
+            </div>
+          </li>
+          <li class="aturcara-item">
+            <div class="aturcara-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="12" width="6" height="5" rx="1"/><circle cx="5" cy="18" r="2"/><rect x="16" y="12" width="6" height="5" rx="1"/><circle cx="19" cy="18" r="2"/><path d="M8,17 L16,17"/><path d="M8,14 L12,10 L16,14"/><path d="M12,10 L12,6"/></svg>
+            </div>
+            <div class="aturcara-info">
+              <div class="aturcara-time">12 PM</div>
+              <div class="aturcara-desc">Majlis bersurai</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Lily bottom right -->
+      <div class="a4-lily">
+        <svg viewBox="0 0 130 190" xmlns="http://www.w3.org/2000/svg">
+          <path d="M65,190 C65,190 62,145 68,108 C71,88 64,68 65,30" stroke="#8BA888" stroke-width="2" fill="none"/>
+          <ellipse cx="65" cy="50" rx="12" ry="26" fill="rgba(220,175,180,0.8)" transform="rotate(-22,65,50)"/>
+          <ellipse cx="65" cy="50" rx="12" ry="26" fill="rgba(225,180,185,0.75)" transform="rotate(22,65,50)"/>
+          <ellipse cx="65" cy="50" rx="11" ry="24" fill="rgba(232,188,192,0.8)"/>
+          <ellipse cx="46" cy="66" rx="10" ry="22" fill="rgba(218,172,178,0.75)" transform="rotate(-65,46,66)"/>
+          <ellipse cx="84" cy="66" rx="10" ry="22" fill="rgba(218,172,178,0.75)" transform="rotate(65,84,66)"/>
+          <ellipse cx="88" cy="128" rx="9" ry="20" fill="rgba(120,170,115,0.6)" transform="rotate(40,88,128)"/>
+          <ellipse cx="44" cy="150" rx="8" ry="18" fill="rgba(115,165,110,0.55)" transform="rotate(-32,44,150)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 5: MAKLUMAT ─── -->
+  <div class="slide" id="slide-5">
+    <div class="slide5-inner">
+      <div class="section-heading">
+        <h2>Maklumat <em>Jemputan</em></h2>
+        <div class="ornament"></div>
+      </div>
+
+      <div class="countdown-box">
+        <p class="countdown-label">Menghitung Hari · Counting Down</p>
+        <div class="countdown-nums">
+          <div class="c-unit"><span class="c-num" id="cDays">--</span><span class="c-label">Hari</span></div>
+          <span class="c-colon">:</span>
+          <div class="c-unit"><span class="c-num" id="cHours">--</span><span class="c-label">Jam</span></div>
+          <span class="c-colon">:</span>
+          <div class="c-unit"><span class="c-num" id="cMins">--</span><span class="c-label">Minit</span></div>
+          <span class="c-colon">:</span>
+          <div class="c-unit"><span class="c-num" id="cSecs">--</span><span class="c-label">Saat</span></div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-tile">
+          <span class="info-tile-icon">🗓</span>
+          <p class="info-tile-lbl">Tarikh · Date</p>
+          <p class="info-tile-val">31 Mei 2026<br><small style="font-size:0.75rem;font-family:'EB Garamond';font-style:normal;color:var(--text-mid);">Ahad · Sunday</small></p>
+        </div>
+        <div class="info-tile">
+          <span class="info-tile-icon">🕗</span>
+          <p class="info-tile-lbl">Masa · Time</p>
+          <p class="info-tile-val">8:30 AM – 12 PM</p>
+        </div>
+        <div class="info-tile full">
+          <span class="info-tile-icon">🏛</span>
+          <p class="info-tile-lbl">Tempat · Venue</p>
+          <p class="info-tile-val">Dewan MPKS Saujana Utama<br><small style="font-size:0.72rem;font-family:'EB Garamond';font-style:normal;color:var(--text-mid);">Persiaran Saujana 3, Saujana Utama 1<br>47000 Sungai Buloh, Selangor</small></p>
+        </div>
+      </div>
+
+      <div class="map-box">
+        <div class="map-bar">
+          <span style="font-size:1.3rem;">📍</span>
+          <div class="map-bar-text">
+            <div class="map-venue-name">Dewan MPKS Saujana Utama</div>
+            <div class="map-venue-addr">Persiaran Saujana 3, Saujana Utama 1, 47000 Sungai Buloh, Selangor</div>
+          </div>
+        </div>
+        <iframe class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU3Kuo&q=Dewan+MPKS+Saujana+Utama,Persiaran+Saujana+3,Saujana+Utama+1,47000+Sungai+Buloh,Selangor"
+          title="Venue map"></iframe>
+        <a class="map-dir-btn" href="https://maps.google.com/?q=Dewan+MPKS+Saujana+Utama,+Persiaran+Saujana+3,+Saujana+Utama+1,+47000+Sungai+Buloh,+Selangor" target="_blank">
+          🧭 Dapatkan Arah · Get Directions
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 6: RSVP ─── -->
+  <div class="slide" id="slide-6">
+    <div class="slide6-inner">
+      <div class="section-heading">
+        <h2>R S V P</h2>
+        <div class="ornament"></div>
+      </div>
+
+      <div class="rsvp-card">
+        <div id="rsvpForm">
+          <div class="form-row">
+            <label class="form-lbl" for="rName">Nama Penuh · Full Name *</label>
+            <input class="form-input" type="text" id="rName" placeholder="Masukkan nama anda...">
+          </div>
+          <div class="form-row">
+            <label class="form-lbl" for="rPhone">No. Telefon · Phone</label>
+            <input class="form-input" type="tel" id="rPhone" placeholder="+60 12-345 6789">
+          </div>
+          <div class="form-row">
+            <label class="form-lbl">Kehadiran · Attendance *</label>
+            <div class="radio-row">
+              <label class="radio-lbl"><input type="radio" name="att" value="hadir" checked> ✓ Hadir · Will Attend</label>
+              <label class="radio-lbl"><input type="radio" name="att" value="tidak"> ✗ Tidak Dapat Hadir</label>
+            </div>
+          </div>
+          <div class="form-row" id="guestRow">
+            <label class="form-lbl" for="rGuests">Bilangan Tetamu · Guests</label>
+            <select class="form-select" id="rGuests">
+              <option value="1">1 orang</option>
+              <option value="2">2 orang</option>
+              <option value="3">3 orang</option>
+              <option value="4">4 orang</option>
+              <option value="5">5 orang</option>
+              <option value="6+">6+ orang</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label class="form-lbl" for="rMsg">Ucapan · Message (Optional)</label>
+            <textarea class="form-textarea" id="rMsg" placeholder="Ucapan untuk pengantin..."></textarea>
+          </div>
+          <button class="btn-submit" onclick="submitRSVP()">Hantar RSVP · Submit ✦</button>
+        </div>
+        <div class="form-success" id="rsvpOK">
+          <span class="form-success-emoji">🌸</span>
+          <h3>Terima Kasih!</h3>
+          <p>RSVP anda telah diterima.<br><em>Your RSVP has been received.</em><br><br>Kami tidak sabar untuk berjumpa anda! 💕</p>
+        </div>
+      </div>
+
+      <div class="rsvp-list-box">
+        <div class="rsvp-list-hdr">
+          <span class="rsvp-list-title">Senarai Tetamu</span>
+          <span class="rsvp-badge-count" id="rsvpCount">0</span>
+        </div>
+        <div class="rsvp-entries" id="rsvpEntries">
+          <p style="text-align:center;color:var(--text-mid);font-style:italic;font-size:0.85rem;padding:0.5rem;">Belum ada RSVP lagi...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 7: GALERI ─── -->
+  <div class="slide" id="slide-7">
+    <div class="slide7-inner">
+      <div class="section-heading">
+        <h2>Galeri <em>Foto</em></h2>
+        <p style="font-size:0.78rem;color:var(--text-mid);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.3rem;">Kongsi kenangan anda</p>
+        <div class="ornament"></div>
+      </div>
+
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileIn').click()"
+        ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="handleDragLeave(event)">
+        <input type="file" id="fileIn" accept="image/*" multiple onchange="handleFileSelect(event)">
+        <span class="upload-icon">📷</span>
+        <p class="upload-title">Muat Naik Foto · Upload Photos</p>
+        <p class="upload-sub">Klik atau seret gambar ke sini · Click or drag images</p>
+      </div>
+
+      <div class="uploader-name-row">
+        <input class="form-input" type="text" id="uploaderName" placeholder="Nama anda · Your name (optional)" style="flex:1">
+      </div>
+
+      <div class="qr-box">
+        <div class="qr-img-wrap"><canvas id="qrCanvas"></canvas></div>
+        <div>
+          <p class="qr-title">Imbas untuk Galeri</p>
+          <p class="qr-sub">Kongsi pautan ini supaya tetamu boleh muat naik &amp; lihat gambar secara langsung.</p>
+          <button class="qr-btn" onclick="copyLink()">🔗 Salin Pautan</button>
+        </div>
+      </div>
+
+      <div class="gallery-empty" id="galleryEmpty">🌸 Tiada gambar lagi · No photos yet<br><small>Jadilah yang pertama!</small></div>
+      <div class="gallery-mosaic" id="galleryGrid"></div>
+    </div>
+  </div>
 
 </div><!-- end slider -->
 
-<!-- QR lib -->
+<!-- ═══ SCRIPTS ═══ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
-// ═══════════════════════════════════
-// SLIDE NAVIGATION
-// ═══════════════════════════════════
-const TOTAL = 7;
-let current = 0;
-const slides = document.querySelectorAll('.slide');
-const navLinks = document.querySelectorAll('.nav-links a');
+<script src="js/nav.js"></script>
+<script src="js/countdown.js"></script>
+<script src="js/rsvp.js"></script>
+<script src="js/gallery.js"></script>
 
-function goTo(idx, dir) {
-  if (idx < 0 || idx >= TOTAL) return;
-  const prev = current;
-  slides[prev].classList.remove('active');
-  slides[prev].classList.add('prev');
-  current = idx;
-  slides[current].classList.remove('prev');
-  slides[current].classList.add('active');
-  setTimeout(() => slides[prev].classList.remove('prev'), 700);
-  updateUI();
-  closeNav();
-}
-
-function nextSlide() { if (current < TOTAL-1) goTo(current+1); }
-function prevSlide() { if (current > 0) goTo(current-1); }
-
-function updateUI() {
-  // Nav links
-  navLinks.forEach((a,i) => a.classList.toggle('active', i===current));
-  // Arrows
-  document.getElementById('arrowLeft').disabled = current === 0;
-  document.getElementById('arrowRight').disabled = current === TOTAL-1;
-  // Dots
-  document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('active', i===current));
-}
-
-// Create dots
-const dotsContainer = document.getElementById('navDots');
-for (let i=0;i<TOTAL;i++) {
-  const btn = document.createElement('button');
-  btn.className = 'nav-dot' + (i===0?' active':'');
-  btn.onclick = () => goTo(i);
-  btn.setAttribute('aria-label', `Go to slide ${i+1}`);
-  dotsContainer.appendChild(btn);
-}
-
-// Keyboard
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight') nextSlide();
-  if (e.key === 'ArrowLeft') prevSlide();
-});
-
-// Touch swipe
-let touchStartX = 0;
-document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive:true});
-document.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].screenX - touchStartX;
-  if (Math.abs(dx) > 50) { dx < 0 ? nextSlide() : prevSlide(); }
-}, {passive:true});
-
-// Nav
-function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
-function closeNav() { document.getElementById('navLinks').classList.remove('open'); }
-updateUI();
-
-// ═══════════════════════════════════
-// ENVELOPE
-// ═══════════════════════════════════
-function openEnvelope() {
-  const env = document.getElementById('envelopeStage');
-  env.classList.toggle('open');
-  env.classList.remove('float-anim');
-  if (env.classList.contains('open')) {
-    setTimeout(() => goTo(1), 1000);
-  }
-}
-
-// ═══════════════════════════════════
-// COUNTDOWN
-// ═══════════════════════════════════
-function runCountdown() {
-  const target = new Date('2026-05-31T08:30:00+08:00');
-  function tick() {
-    const diff = target - new Date();
-    if (diff <= 0) { ['cDays','cHours','cMins','cSecs'].forEach(id => document.getElementById(id).textContent='0'); return; }
-    document.getElementById('cDays').textContent = Math.floor(diff/86400000);
-    document.getElementById('cHours').textContent = String(Math.floor(diff%86400000/3600000)).padStart(2,'0');
-    document.getElementById('cMins').textContent = String(Math.floor(diff%3600000/60000)).padStart(2,'0');
-    document.getElementById('cSecs').textContent = String(Math.floor(diff%60000/1000)).padStart(2,'0');
-  }
-  tick(); setInterval(tick,1000);
-}
-runCountdown();
-
-// ═══════════════════════════════════
-// RSVP
-// ═══════════════════════════════════
-const RSVP_KEY = 'wedding-na-rsvp-2026';
-
-document.querySelectorAll('input[name="att"]').forEach(r => {
-  r.addEventListener('change', () => {
-    document.getElementById('guestRow').style.display = r.value==='hadir'?'block':'none';
-  });
-});
-
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxyXy9ibyf23W3psB1U85H8TsSdlZHDpcDV6zmS0f79lA4j23BMxYD1nwaAKW-hq-A8QA/exec';
-
-async function submitRSVP() {
-  const name = document.getElementById('rName').value.trim();
-  if (!name) { document.getElementById('rName').style.borderColor='#B03030'; document.getElementById('rName').focus(); return; }
-  const att = document.querySelector('input[name="att"]:checked').value;
-  const guests = document.getElementById('rGuests').value;
-  const msg = document.getElementById('rMsg').value.trim();
-  const phone = document.getElementById('rPhone').value.trim();
-  const entry = {name,att,guests,msg,phone,ts:Date.now()};
-
-  // Disable button & show loading
-  const btn = document.querySelector('.btn-submit');
-  btn.textContent = 'Menghantar... ⏳';
-  btn.disabled = true;
-
-  // 1. Save locally
-  let list = getRSVPList();
-  list.unshift(entry);
-  saveRSVPList(list);
-  try { await window.storage.set(RSVP_KEY, JSON.stringify(list), true); } catch(e){}
-
-  // 2. Send to Google Sheets (no-cors so we won't get a response body, but it still works)
-  try {
-    await fetch(SHEETS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, att, guests, msg, phone })
-    });
-  } catch(e) {
-    // Silent fail — data is already saved locally
-    console.warn('Google Sheets sync failed:', e);
-  }
-
-  // 3. Show success
-  document.getElementById('rsvpForm').style.display='none';
-  document.getElementById('rsvpOK').style.display='block';
-  renderRSVP(list);
-}
-
-function getRSVPList() { try { return JSON.parse(localStorage.getItem(RSVP_KEY))||[]; } catch(e){return[];} }
-function saveRSVPList(l) { try { localStorage.setItem(RSVP_KEY, JSON.stringify(l)); } catch(e){} }
-
-async function loadRSVP() {
-  let list = getRSVPList();
-  try {
-    const r = await window.storage.get(RSVP_KEY, true);
-    if (r?.value) { const s=JSON.parse(r.value); if(s.length>=list.length){list=s;saveRSVPList(list);} }
-  } catch(e){}
-  renderRSVP(list);
-}
-
-function renderRSVP(list) {
-  const el = document.getElementById('rsvpEntries');
-  const cnt = document.getElementById('rsvpCount');
-  if (!list.length) { el.innerHTML='<p style="text-align:center;color:var(--text-mid);font-style:italic;font-size:0.85rem;padding:0.5rem;">Belum ada RSVP lagi...</p>'; cnt.textContent='0'; return; }
-  el.innerHTML = list.map(e=>`
-    <div class="rsvp-entry">
-      <span class="rsvp-name">${esc(e.name)}</span>
-      <div style="display:flex;gap:0.4rem;align-items:center;">
-        <span class="rsvp-status ${e.att==='hadir'?'hadir':'tidak'}">${e.att==='hadir'?'✓ Hadir':'✗ Tidak'}</span>
-        ${e.att==='hadir'?`<span class="rsvp-status">${e.guests}</span>`:''}
-      </div>
-    </div>`).join('');
-  const attending = list.filter(e=>e.att==='hadir').length;
-  cnt.textContent = `${list.length} · ${attending} hadir`;
-}
-
-// ═══════════════════════════════════
-// GALLERY
-// ═══════════════════════════════════
-const GAL_KEY = 'wedding-na-gallery-2026';
-
-function getGallery() { try { return JSON.parse(localStorage.getItem(GAL_KEY))||[]; } catch(e){return[];} }
-function saveGallery(l) { try { localStorage.setItem(GAL_KEY, JSON.stringify(l)); } catch(e){} }
-
-async function loadGallery() {
-  let list = getGallery();
-  try {
-    const r = await window.storage.get(GAL_KEY, true);
-    if (r?.value) { const s=JSON.parse(r.value); if(s.length>=list.length){list=s;saveGallery(list);} }
-  } catch(e){}
-  renderGallery(list);
-}
-
-function handleFileSelect(e) { processFiles(Array.from(e.target.files)); }
-function handleDragOver(e) { e.preventDefault(); document.getElementById('uploadZone').classList.add('drag-over'); }
-function handleDragLeave() { document.getElementById('uploadZone').classList.remove('drag-over'); }
-function handleDrop(e) { e.preventDefault(); document.getElementById('uploadZone').classList.remove('drag-over'); processFiles(Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'))); }
-
-function processFiles(files) {
-  const name = document.getElementById('uploaderName').value.trim() || 'Tetamu';
-  files.forEach(f => {
-    if (f.size > 10*1024*1024) { alert(`${f.name} terlalu besar (max 10MB)`); return; }
-    const r = new FileReader();
-    r.onload = async e => {
-      const entry = {src:e.target.result, name, ts:Date.now(), id:Math.random().toString(36).slice(2)};
-      let list = getGallery();
-      list.unshift(entry);
-      if (list.length>50) list=list.slice(0,50);
-      saveGallery(list);
-      try { await window.storage.set(GAL_KEY, JSON.stringify(list), true); } catch(err){}
-      renderGallery(list);
-    };
-    r.readAsDataURL(f);
-  });
-}
-
-function renderGallery(list) {
-  const grid = document.getElementById('galleryGrid');
-  const empty = document.getElementById('galleryEmpty');
-  grid.innerHTML='';
-  empty.style.display = list.length?'none':'block';
-  list.forEach(item => {
-    const div = document.createElement('div');
-    div.className='gallery-photo';
-    div.innerHTML=`<img src="${item.src}" alt="Photo by ${esc(item.name)}" loading="lazy"><div class="gallery-photo-name">${esc(item.name)}</div>`;
-    div.addEventListener('click', ()=>openLB(item.src));
-    grid.appendChild(div);
-  });
-}
-
-function openLB(src) { document.getElementById('lbImg').src=src; document.getElementById('lightbox').classList.add('on'); }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('on'); document.getElementById('lbImg').src=''; }
-
-// ═══════════════════════════════════
-// QR CODE
-// ═══════════════════════════════════
-function generateQR() {
-  const url = window.location.href.split('#')[0]+'#galeri';
-  try { new QRCode(document.getElementById('qrCanvas'), {text:url,width:80,height:80,colorDark:'#6B1A2A',colorLight:'#F5EFE6',correctLevel:QRCode.CorrectLevel.M}); } catch(e){}
-}
-
-function copyLink() {
-  const url = window.location.href.split('#')[0]+'#galeri';
-  navigator.clipboard.writeText(url).then(()=>alert('Pautan disalin!')).catch(()=>prompt('Salin pautan:',url));
-}
-
-// ═══════════════════════════════════
-// UTILS
-// ═══════════════════════════════════
-function esc(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-  loadRSVP();
-  loadGallery();
-  generateQR();
-});
-</script>
 </body>
 </html>
